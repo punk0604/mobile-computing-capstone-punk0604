@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_computing_capstone/models/screens/home_page.dart';
 import 'package:mobile_computing_capstone/models/screens/list_page.dart';
+import 'package:mobile_computing_capstone/database/database_seeder.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Seed the database with fake jobs
+  await DatabaseSeeder.seedJobs();
+
   runApp(const MyApp());
 }
 
@@ -33,10 +39,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [
-    HomePage(),
-    ListPage(),
-  ];
+  final List<Widget> _pages = const [HomePage(), ListPage()];
 
   void _onItemTapped(int index) {
     setState(() => _selectedIndex = index);
