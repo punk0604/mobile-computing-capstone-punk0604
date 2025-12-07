@@ -69,13 +69,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
       appBar: AppBar(
         title: const Text('Find Your Next Opportunity'),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: isDarkMode ? Colors.grey[800] : Colors.white,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

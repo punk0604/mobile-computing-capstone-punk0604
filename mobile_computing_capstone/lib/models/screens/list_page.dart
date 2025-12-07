@@ -54,20 +54,15 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
       appBar: AppBar(
-        title: const Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.favorite, color: Colors.red),
-            SizedBox(width: 8),
-            Text('Saved Jobs'),
-          ],
-        ),
+        title: const Row(mainAxisSize: MainAxisSize.min),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: isDarkMode ? Colors.grey[800] : Colors.white,
       ),
       body: FutureBuilder<List<Job>>(
         future: _savedJobs,
@@ -131,7 +126,10 @@ class _SavedJobCardState extends State<SavedJobCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Card(
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
       elevation: 4,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -145,11 +143,18 @@ class _SavedJobCardState extends State<SavedJobCard> {
             leading: const Icon(Icons.work, color: Colors.blue),
             title: Text(
               widget.job.title,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
             ),
             subtitle: Text(
               widget.job.company,
-              style: const TextStyle(color: Colors.grey, fontSize: 14),
+              style: TextStyle(
+                color: isDarkMode ? Colors.grey[400] : Colors.grey,
+                fontSize: 14,
+              ),
             ),
             trailing: GestureDetector(
               onTap: () {
@@ -164,19 +169,22 @@ class _SavedJobCardState extends State<SavedJobCard> {
             ),
           ),
           if (_isExpanded) ...[
-            const Divider(height: 1),
+            Divider(
+              height: 1,
+              color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+            ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (widget.job.salary != null) ...[
-                    const Text(
+                    Text(
                       'Salary',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
-                        color: Colors.grey,
+                        color: isDarkMode ? Colors.grey[400] : Colors.grey,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -186,7 +194,9 @@ class _SavedJobCardState extends State<SavedJobCard> {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.green[50],
+                        color: isDarkMode
+                            ? Colors.green[900]
+                            : Colors.green[50],
                         border: Border.all(color: Colors.green),
                         borderRadius: BorderRadius.circular(6),
                       ),
@@ -201,27 +211,31 @@ class _SavedJobCardState extends State<SavedJobCard> {
                     ),
                     const SizedBox(height: 12),
                   ],
-                  const Text(
+                  Text(
                     'Description',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
-                      color: Colors.grey,
+                      color: isDarkMode ? Colors.grey[400] : Colors.grey,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     widget.job.description,
-                    style: const TextStyle(fontSize: 14, height: 1.5),
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.5,
+                      color: isDarkMode ? Colors.grey[200] : Colors.black,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   if (widget.job.getTagsList().isNotEmpty) ...[
-                    const Text(
+                    Text(
                       'Tags',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
-                        color: Colors.grey,
+                        color: isDarkMode ? Colors.grey[400] : Colors.grey,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -240,7 +254,9 @@ class _SavedJobCardState extends State<SavedJobCard> {
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.blue),
                                 borderRadius: BorderRadius.circular(4),
-                                color: Colors.blue[50],
+                                color: isDarkMode
+                                    ? Colors.blue[900]
+                                    : Colors.blue[50],
                               ),
                               child: Text(
                                 tag,
