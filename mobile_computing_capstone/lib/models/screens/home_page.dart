@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   late CardSwiperController controller;
   final DatabaseHelper _db = DatabaseHelper.instance;
   bool _isLoading = true;
-  int _currentUserID = 1; // Default user ID
+  int _currentUserID = 1; // default user ID
 
   @override
   void initState() {
@@ -49,6 +49,12 @@ class _HomePageState extends State<HomePage> {
         type: isLike ? 'like' : 'dislike',
       );
       await _db.insertSwipe(swipe);
+
+      // If swiped right (like), save the job
+      if (isLike) {
+        await _db.toggleSaveJob(job.id!, true);
+      }
+
       print('Recorded swipe: ${job.title} - ${isLike ? 'LIKE' : 'DISLIKE'}');
     } catch (e) {
       print('Error recording swipe: $e');
